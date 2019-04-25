@@ -9,7 +9,7 @@
     "test": "eslint src/**.js",
     "build": "yarn clean; NODE_ENV=production webpack --colors",
     "clean": "rimraf dist",
-    "deploy": "yarn build; surge -p dist -d starterpack-Trevor-Dartmouth.surge.sh; yarn clean"
+    "deploy": "yarn build; surge -p dist -d starterpack-v2-Trevor-Dartmouth.surge.sh; yarn clean"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
@@ -45,6 +45,7 @@
     "lodash.debounce": "^4.0.8",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-router": "^5.0.0"
+    "react-router": "^5.0.0",
+    "react-router-dom": "^5.0.0"
   }
 }
