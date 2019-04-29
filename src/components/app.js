@@ -3,8 +3,6 @@ import {
   BrowserRouter as Router,
   Route, Switch, NavLink,
 } from 'react-router-dom';
-import Counter from '../containers/counter';
-import Controls from '../containers/controls';
 import HomePage from './homePage';
 import NewPost from './newPost';
 import Post from './post';
@@ -14,16 +12,14 @@ const App = () => {
     return (
       <div>
         URL Not Found
-        <Counter />
-        <Controls />
       </div>
     );
   };
 
   const Nav = () => {
     return (
-      <nav>
-        <ul>
+      <nav id="main-header">
+        <ul id="header-list">
           <li><NavLink exact to="/">Home</NavLink></li>
           <li><NavLink to="/post/new">Add New Post</NavLink></li>
         </ul>
