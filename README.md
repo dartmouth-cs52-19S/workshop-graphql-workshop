@@ -12,3 +12,4 @@
 
 ## Grading Notes
 * No extra credit was attempted
+* Please Ignore the no Image or Src Tag for Material UI warning. I have put an image tag in the CardMedia Section and it works exactly like the home pages' so I assume it is something wrong with Material UI.

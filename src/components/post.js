@@ -157,7 +157,7 @@ class Post extends Component {
           <CardContent>
             <Typography
               gutterBottom
-              component="p"
+              component="h2"
               style={{ display: 'flex', flexDirection: 'column', alignContent: 'center' }}
             >
               <p className="edit-label bold">Title:</p>
@@ -183,7 +183,7 @@ class Post extends Component {
               />
             </Typography>
             <Typography
-              component="p"
+              component="h2"
               style={{ display: 'flex', flexDirection: 'column', alignContent: 'center' }}
             >
               <p className="edit-label bold">Content:</p>
@@ -202,7 +202,7 @@ class Post extends Component {
               />
             </Typography>
             <Typography
-              component="p"
+              component="h2"
               style={{ display: 'flex', flexDirection: 'column', alignContent: 'center' }}
             >
               <p className="edit-label bold">Tags:</p>
@@ -221,10 +221,10 @@ class Post extends Component {
               />
             </Typography>
             <Typography
-              component="p"
+              component="h2"
               style={{ display: 'flex', flexDirection: 'column', alignContent: 'center' }}
             >
-              <p className="bold">Cover Url:</p>
+              <p className="edit-label bold">Cover Url:</p>
               <TextareaAutosize
                 style={{
                   fontSize: '1em',
@@ -263,7 +263,7 @@ class Post extends Component {
             <Typography gutterBottom variant="h5" component="h2" style={{ borderBottom: '0.02em solid lightgray' }}>
               {this.props.post.title}
             </Typography>
-            <Typography component="p">
+            <Typography component="h2">
               <p dangerouslySetInnerHTML={{ __html: marked(this.props.post.content || '') }} />
             </Typography>
             <Typography component="p" style={{ fontStyle: 'italic', textAlign: 'right' }}>
