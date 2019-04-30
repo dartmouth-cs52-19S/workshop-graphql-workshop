@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -48,7 +47,7 @@ class HomePage extends Component {
             <Typography gutterBottom variant="h5" component="h2">
               {post.title}
             </Typography>
-            <Typography className="tags" component="p">
+            <Typography className="tags" component="p" style={{ fontStyle: 'italic', textAlign: 'right' }}>
               tags: {post.tags}
             </Typography>
 

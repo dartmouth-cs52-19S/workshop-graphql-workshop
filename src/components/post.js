@@ -6,7 +6,6 @@ import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -22,12 +21,13 @@ const styles = theme => ({
     maxWidth: '90%',
     minHeight: '50%',
     marginTop: '3%',
+    marginBottom: '3%',
     height: '100%',
     width: '100%',
 
   },
   media: {
-    minHeight: 450,
+    minHeight: 350,
   },
   input: {
     display: 'none',
@@ -135,8 +135,8 @@ class Post extends Component {
 
   onSave(event) {
     event.preventDefault();
-    this.setState({ isEditing: false });
     this.props.updatePost(this.state.post, this.props.history);
+    setTimeout(() => { this.setState({ isEditing: false }); }, 150);
   }
 
   renderPost(classes) {
@@ -150,8 +150,26 @@ class Post extends Component {
             title="Post Image"
           />
           <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
+            <Typography
+              gutterBottom
+              component="p"
+              style={{ display: 'flex', flexDirection: 'column', alignContent: 'center' }}
+            >
+              <p className="edit-label bold">Title:</p>
               <TextareaAutosize
+                style={{
+                  fontSize: '1.5rem',
+                  fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+                  fontWeight: 400,
+                  marginBottom: '1%',
+                  lineHeight: 1.33,
+                  letterSpacing: '0em',
+                  display: 'block',
+                  minHeight: '100%',
+                  minWidth: '99%',
+                  maxWidth: '99%',
+                  border: '0.05em solid lightgrey',
+                }}
                 minRows={3}
                 maxRows={6}
                 placeholder="Post Title"
@@ -159,8 +177,18 @@ class Post extends Component {
                 value={this.state.post.title}
               />
             </Typography>
-            <Typography component="p">
+            <Typography
+              component="p"
+              style={{ display: 'flex', flexDirection: 'column', alignContent: 'center' }}
+            >
+              <p className="edit-label bold">Content:</p>
               <TextareaAutosize
+                style={{
+                  fontSize: '1em',
+                  minWidth: '99%',
+                  maxWidth: '99%',
+                  border: '0.05em solid lightgrey',
+                }}
                 minRows={3}
                 maxRows={6}
                 placeholder="Post Content"
@@ -168,8 +196,18 @@ class Post extends Component {
                 value={this.state.post.content}
               />
             </Typography>
-            <Typography component="p">
+            <Typography
+              component="p"
+              style={{ display: 'flex', flexDirection: 'column', alignContent: 'center' }}
+            >
+              <p className="edit-label bold">Tags:</p>
               <TextareaAutosize
+                style={{
+                  fontSize: '1em',
+                  minWidth: '99%',
+                  maxWidth: '99%',
+                  border: '0.05em solid lightgrey',
+                }}
                 minRows={3}
                 maxRows={6}
                 placeholder="tags"
@@ -177,11 +215,21 @@ class Post extends Component {
                 value={this.state.post.tags}
               />
             </Typography>
-            <Typography component="p">
+            <Typography
+              component="p"
+              style={{ display: 'flex', flexDirection: 'column', alignContent: 'center' }}
+            >
+              <p className="bold">Cover Url:</p>
               <TextareaAutosize
+                style={{
+                  fontSize: '1em',
+                  minWidth: '99%',
+                  maxWidth: '99%',
+                  border: '0.05em solid lightgrey',
+                }}
                 minRows={3}
                 maxRows={6}
-                placeholder="tags"
+                placeholder="url"
                 onChange={this.onUrlChange}
                 value={this.state.post.cover_url}
               />
@@ -207,14 +255,14 @@ class Post extends Component {
             title="Post Image"
           />
           <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
+            <Typography gutterBottom variant="h5" component="h2" style={{ borderBottom: '0.02em solid lightgray' }}>
               {this.props.post.title}
             </Typography>
             <Typography component="p">
               {this.props.post.content}
             </Typography>
-            <Typography component="p">
-              {this.props.post.tags}
+            <Typography component="p" style={{ fontStyle: 'italic', textAlign: 'right' }}>
+              tags: {this.props.post.tags}
             </Typography>
           </CardContent>
           <CardActions style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>

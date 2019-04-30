@@ -83,3 +83,12 @@ input, button, i, textarea {
   width: 100%;
 }
 
+.edit-label {
+  width: 100%;
+  border-bottom: 0.02em solid lightgray;
+
+  .bold {
+    font-weight: bold;
+  }
+}
+
