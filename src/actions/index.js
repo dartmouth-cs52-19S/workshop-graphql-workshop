@@ -56,7 +56,7 @@ export function createPost(post, history) {
 
 export function updatePost(post) {
   return (dispatch) => {
-    axios.put(`${ROOT_URL}/posts${API_KEY}`)
+    axios.put(`${ROOT_URL}/posts/${post.id}${API_KEY}`, post)
       .then((response) => {
         dispatch({ type: ActionTypes.UPDATE_POST, payload: response.data });
       })

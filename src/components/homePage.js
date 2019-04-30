@@ -1,7 +1,28 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
+import { withStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 import { fetchPosts } from '../actions';
+
+const styles = {
+  card: {
+    minWidth: '25%',
+    maxWidth: '25%',
+    marginTop: '3%',
+    marginLeft: '5%',
+
+  },
+  media: {
+    height: 140,
+  },
+};
 
 class HomePage extends Component {
   constructor(props) {
@@ -14,28 +35,48 @@ class HomePage extends Component {
   }
 
   renderPosts() {
+    const { classes } = this.props;
     return this.props.posts.map((post) => {
       return (
-        <li key={post.id} className="post">
-          <Link to={{
-            pathname: `/posts/${post.id}`,
-          }}
-          >
-            <h3>{post.title}</h3>
-            <p>{post.content}</p>
-            <p>{post.tags}</p>
-            <p>{post.coverUrl}</p>
-          </Link>
-        </li>
+        <Card className={classes.card}>
+          <CardActionArea>
+            <CardMedia
+              className={classes.media}
+              image={post.coverUrl}
+              title="Post Image"
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="h2">
+                {post.title}
+              </Typography>
+              <Typography className="tags" component="p">
+                {post.tags}
+              </Typography>
+              <Typography component="p">
+                {post.content}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+          <CardActions>
+            <Button size="small" color="primary">
+              <Link to={{
+                pathname: `/posts/${post.id}`,
+              }}
+              >
+                View Post
+              </Link>
+            </Button>
+          </CardActions>
+        </Card>
       );
     });
   }
 
   render() {
     return (
-      <ul>
+      <div className="home-page-posts">
         {this.renderPosts()}
-      </ul>
+      </div>
 
     );
   }
@@ -47,4 +88,4 @@ const mapStateToProps = state => (
   }
 );
 
-export default withRouter(connect(mapStateToProps, { fetchPosts })(HomePage));
+export default withStyles(styles)(withRouter(connect(mapStateToProps, { fetchPosts })(HomePage)));

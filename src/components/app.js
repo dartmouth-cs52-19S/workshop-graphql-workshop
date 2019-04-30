@@ -3,10 +3,23 @@ import {
   BrowserRouter as Router,
   Route, Switch, NavLink,
 } from 'react-router-dom';
-import HomePage from './homePage';
-import NewPost from './newPost';
+import { withStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 import Post from './post';
+import NewPost from './newPost';
+import HomePage from './homePage';
 
+const styles = {
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginLeft: -18,
+    marginRight: 10,
+  },
+};
 const App = () => {
   const FallBack = () => {
     return (
@@ -16,14 +29,20 @@ const App = () => {
     );
   };
 
-  const Nav = () => {
+  const Nav = (props) => {
+    const classes = props;
     return (
-      <nav id="main-header">
-        <ul id="header-list">
-          <li><NavLink exact to="/">Home</NavLink></li>
-          <li><NavLink to="/post/new">Add New Post</NavLink></li>
-        </ul>
-      </nav>
+      <div className={classes.root}>
+        <AppBar position="static">
+          <Toolbar variant="dense">
+            <NavLink variant="h6" color="inherit" exact to="/">Home</NavLink>
+            <Typography variant="h6" color="inherit">
+              Welcome to your Blog
+            </Typography>
+            <NavLink variant="h6" color="inherit" to="/post/new">Add New Post</NavLink>
+          </Toolbar>
+        </AppBar>
+      </div>
     );
   };
   return (
@@ -41,4 +60,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default withStyles(styles)(App);
