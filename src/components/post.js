@@ -14,6 +14,8 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import { fetchPost, deletePost, updatePost } from '../actions';
 
+
+/* Some UI Components adapted from Material UI */
 const styles = theme => ({
   button: {
     margin: theme.spacing.unit,

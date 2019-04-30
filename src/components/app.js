@@ -11,7 +11,7 @@ import Post from './post';
 import NewPost from './newPost';
 import HomePage from './homePage';
 
-
+/* Some UI Components adapted from Material UI */
 const styles = {
   root: {
     flexGrow: 1,
