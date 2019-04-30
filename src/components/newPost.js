@@ -38,7 +38,7 @@ class NewPost extends Component {
       title: '',
       content: '',
       tags: '',
-      coverUrl: '',
+      cover_url: '',
     };
 
     this.onTitleChange = this.onTitleChange.bind(this);
@@ -65,7 +65,7 @@ class NewPost extends Component {
 
   onUrlChange(event) {
     event.preventDefault();
-    this.setState({ coverUrl: event.target.value });
+    this.setState({ cover_url: event.target.value });
   }
 
   onCreateNewPost(event) {
@@ -107,7 +107,7 @@ class NewPost extends Component {
           label="Photo Url"
           className={classes.textField}
           onChange={this.onUrlChange}
-          value={this.state.coverUrl}
+          value={this.state.cover_url}
           margin="normal"
         />
         <div className="new-post-buttons">

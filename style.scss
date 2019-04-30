@@ -20,6 +20,18 @@ li {
   
 }
 
+h4 {
+  cursor: default;
+}
+.menu-toolbar {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
 #header-list {
   display: flex;
   flex-direction: row;
@@ -34,7 +46,7 @@ input, button, i, textarea {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  
+
 }
 
 .new-post {
@@ -61,5 +73,13 @@ input, button, i, textarea {
 
 .tag {
   font-style: italic;
+}
+
+.view-post{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  width: 100%;
 }
 

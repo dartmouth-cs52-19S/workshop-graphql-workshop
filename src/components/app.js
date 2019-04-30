@@ -11,6 +11,7 @@ import Post from './post';
 import NewPost from './newPost';
 import HomePage from './homePage';
 
+
 const styles = {
   root: {
     flexGrow: 1,
@@ -35,11 +36,13 @@ const App = () => {
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar variant="dense">
-            <NavLink variant="h6" color="inherit" exact to="/">Home</NavLink>
-            <Typography variant="h6" color="inherit">
-              Welcome to your Blog
-            </Typography>
-            <NavLink variant="h6" color="inherit" to="/post/new">Add New Post</NavLink>
+            <div className="menu-toolbar">
+              <NavLink variant="h6" style={{ textDecoration: 'none', color: 'white' }} exact to="/">Home</NavLink>
+              <Typography variant="h4" color="inherit">
+                Welcome to your Blog
+              </Typography>
+              <NavLink variant="h6" style={{ textDecoration: 'none', color: 'white' }} to="/post/new">Add New Post</NavLink>
+            </div>
           </Toolbar>
         </AppBar>
       </div>

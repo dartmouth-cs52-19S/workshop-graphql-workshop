@@ -38,36 +38,34 @@ class HomePage extends Component {
     const { classes } = this.props;
     return this.props.posts.map((post) => {
       return (
-        <Card className={classes.card}>
-          <CardActionArea>
-            <CardMedia
-              className={classes.media}
-              image={post.coverUrl}
-              title="Post Image"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="h2">
-                {post.title}
-              </Typography>
-              <Typography className="tags" component="p">
-                {post.tags}
-              </Typography>
-              <Typography component="p">
-                {post.content}
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-          <CardActions>
+        <Card key="key" className={classes.card}>
+          <CardMedia
+            className={classes.media}
+            image={post.cover_url}
+            title="Post Image"
+          />
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="h2">
+              {post.title}
+            </Typography>
+            <Typography className="tags" component="p">
+              tags: {post.tags}
+            </Typography>
+
+          </CardContent>
+          <CardActions style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
             <Button size="small" color="primary">
-              <Link to={{
-                pathname: `/posts/${post.id}`,
-              }}
+              <Link style={{ textDecoration: 'none' }}
+                to={{
+                  pathname: `/posts/${post.id}`,
+                }}
               >
                 View Post
               </Link>
             </Button>
           </CardActions>
         </Card>
+
       );
     });
   }

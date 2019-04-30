@@ -5,11 +5,29 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Typography from '@material-ui/core/Typography';
 import { fetchPost, deletePost, updatePost } from '../actions';
 
 const styles = theme => ({
   button: {
     margin: theme.spacing.unit,
+  },
+  card: {
+    minWidth: '90%',
+    maxWidth: '90%',
+    minHeight: '50%',
+    marginTop: '3%',
+    height: '100%',
+    width: '100%',
+
+  },
+  media: {
+    minHeight: 450,
   },
   input: {
     display: 'none',
@@ -26,7 +44,7 @@ class Post extends Component {
         title: '',
         content: '',
         tags: '',
-        coverUrl: '',
+        cover_url: '',
       },
 
     };
@@ -34,7 +52,6 @@ class Post extends Component {
     this.onContentChange = this.onContentChange.bind(this);
     this.onTagsChange = this.onTagsChange.bind(this);
     this.onUrlChange = this.onUrlChange.bind(this);
-    this.renderButtons = this.renderButtons.bind(this);
     this.renderPost = this.renderPost.bind(this);
     this.onEdit = this.onEdit.bind(this);
     this.onCancel = this.onCancel.bind(this);
@@ -81,7 +98,7 @@ class Post extends Component {
     this.setState({
       post: {
         ...this.state.post,
-        coverUrl: event.target.value,
+        cover_url: event.target.value,
       },
     });
   }
@@ -101,7 +118,7 @@ class Post extends Component {
           title: this.props.post.title,
           content: this.props.post.content,
           tags: this.props.post.tags,
-          coverUrl: this.props.post.url,
+          cover_url: this.props.post.cover_url,
         },
       },
     );
@@ -116,107 +133,108 @@ class Post extends Component {
     );
   }
 
-
   onSave(event) {
     event.preventDefault();
     this.setState({ isEditing: false });
     this.props.updatePost(this.state.post, this.props.history);
   }
 
-  renderButtons(classes) {
+  renderPost(classes) {
     if (this.state.isEditing) {
       return (
-        <div className="post-header">
-          <Button variant="contained" color="secondary" onClick={this.onCancel} className={classes.button}>
-            Cancel
-          </Button>
-          <Button variant="contained" color="secondary" onClick={this.onSave} className={classes.button}>
-            Save
-          </Button>
-        </div>
-      );
-    } else {
-      return (
-        <div className="post-header">
-          <Button variant="contained" color="secondary" onClick={this.onDelete} className={classes.button}>
-            Delete
-          </Button>
-          <Button variant="contained" color="secondary" onClick={this.onEdit} className={classes.button}>
-            Edit
-          </Button>
-        </div>
-      );
-    }
-  }
+        <Card key={this.state.post.id} className={classes.card}>
+          <CardMedia
+            style={{ height: '100%', width: '100%', pointerEvents: 'none' }}
+            className={classes.media}
+            image={this.state.post.cover_url}
+            title="Post Image"
+          />
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="h2">
+              <TextareaAutosize
+                minRows={3}
+                maxRows={6}
+                placeholder="Post Title"
+                onChange={this.onTitleChange}
+                value={this.state.post.title}
+              />
+            </Typography>
+            <Typography component="p">
+              <TextareaAutosize
+                minRows={3}
+                maxRows={6}
+                placeholder="Post Content"
+                onChange={this.onContentChange}
+                value={this.state.post.content}
+              />
+            </Typography>
+            <Typography component="p">
+              <TextareaAutosize
+                minRows={3}
+                maxRows={6}
+                placeholder="tags"
+                onChange={this.onTagsChange}
+                value={this.state.post.tags}
+              />
+            </Typography>
+            <Typography component="p">
+              <TextareaAutosize
+                minRows={3}
+                maxRows={6}
+                placeholder="tags"
+                onChange={this.onUrlChange}
+                value={this.state.post.cover_url}
+              />
+            </Typography>
+          </CardContent>
 
-  renderPost() {
-    if (this.state.isEditing) {
-      return (
-        <div className="post-display">
-          <img src="../img/puppy.jpg" alt="puppy" />
-          <TextareaAutosize
-            minRows={3}
-            maxRows={6}
-            placeholder="Post Title"
-            onChange={this.onTitleChange}
-            value={this.state.post.title}
-          />
-          <TextareaAutosize
-            minRows={3}
-            maxRows={6}
-            placeholder="Post Content"
-            onChange={this.onContentChange}
-            value={this.state.post.content}
-          />
-          <TextareaAutosize
-            minRows={3}
-            maxRows={6}
-            placeholder="tags"
-            onChange={this.onTagsChange}
-            value={this.state.post.tags}
-          />
-        </div>
+          <CardActions style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
+            <Button size="small" color="primary" onClick={this.onCancel}>
+              Cancel
+            </Button>
+            <Button size="small" color="primary" onClick={this.onSave}>
+              Save
+            </Button>
+          </CardActions>
+        </Card>
       );
     } else {
       return (
-        <div className="post-display">
-          <img src="https://www.google.com/search?q=puppy+images
-            &rlz=1C5AVSZ_enUS680US680&tbm=isch&source=iu&ictx=1&
-            fir=oIyUVmRYtXjk-M%253A%252C5KMC1IX1OWFb4M%252C_&vet=1&
-            usg=AI4_-kRkvU6jhTDWCLFCfZh0P8IBBh9FaA&sa=X&ved=2ahUKEwjc4ZzZrvbhAhUFj1kKHTP_DPIQ9QEwAHoECAYQBA&biw=1440&bih=788#"
-            alt="puppy"
+        <Card key={this.props.post.id} className={classes.card}>
+          <CardMedia
+            className={classes.media}
+            image={this.props.post.cover_url}
+            title="Post Image"
           />
-          <TextareaAutosize
-            minRows={3}
-            maxRows={6}
-            placeholder="Post Title"
-            value={this.props.post.title}
-          />
-          <TextareaAutosize
-            minRows={3}
-            maxRows={6}
-            placeholder="Post Content"
-            value={this.props.post.content}
-          />
-          <TextareaAutosize
-            minRows={3}
-            maxRows={6}
-            placeholder="tags"
-            value={this.props.post.tags}
-          />
-        </div>
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="h2">
+              {this.props.post.title}
+            </Typography>
+            <Typography component="p">
+              {this.props.post.content}
+            </Typography>
+            <Typography component="p">
+              {this.props.post.tags}
+            </Typography>
+          </CardContent>
+          <CardActions style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
+            <Button size="small" color="primary" onClick={this.onDelete}>
+              Delete
+            </Button>
+            <Button size="small" color="primary" onClick={this.onEdit}>
+              Edit
+            </Button>
+          </CardActions>
+        </Card>
       );
     }
   }
-  // On edit turn to true
-  // Create new post from values
 
   render() {
     const { classes } = this.props;
     return (
-      <div>
+      <div className="view-post">
         {this.renderPost(classes)}
-        {this.renderButtons(classes)}
       </div>
     );
   }

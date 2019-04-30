@@ -68,7 +68,7 @@ export function updatePost(post) {
 
 export function fetchPost(id) {
   return (dispatch) => {
-    axios.get(`${ROOT_URL}/posts/${id}?${API_KEY}`)
+    axios.get(`${ROOT_URL}/posts/${id}${API_KEY}`)
       .then((response) => {
         dispatch({ type: ActionTypes.FETCH_POST, payload: response.data });
       })
@@ -80,7 +80,7 @@ export function fetchPost(id) {
 
 export function deletePost(id, history) {
   return (dispatch) => {
-    axios.delete(`${ROOT_URL}/posts/${id}?${API_KEY}`)
+    axios.delete(`${ROOT_URL}/posts/${id}${API_KEY}`)
       .then((response) => {
         dispatch({ type: ActionTypes.DELETE_POST, payload: response.data });
         history.push('/');
