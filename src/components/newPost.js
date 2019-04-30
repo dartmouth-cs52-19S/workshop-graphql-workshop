@@ -111,11 +111,11 @@ class NewPost extends Component {
           margin="normal"
         />
         <div className="new-post-buttons">
-          <Button variant="contained" color="secondary" onClick={this.onCreateNewPost} className={classes.button}>
-            Create
-          </Button>
           <Button variant="contained" color="secondary" onClick={() => this.props.history.push('/')} className={classes.button}>
             Cancel
+          </Button>
+          <Button variant="contained" color="secondary" onClick={this.onCreateNewPost} className={classes.button}>
+            Create
           </Button>
         </div>
       </div>

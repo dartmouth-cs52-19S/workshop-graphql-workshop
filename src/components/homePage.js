@@ -12,6 +12,8 @@ import { fetchPosts } from '../actions';
 
 const styles = {
   card: {
+    position: 'relative',
+    marginBottom: '3%',
     minWidth: '25%',
     maxWidth: '25%',
     marginTop: '3%',
@@ -19,7 +21,8 @@ const styles = {
 
   },
   media: {
-    height: 140,
+    height: 0,
+    paddingTop: '56.25%',
   },
 };
 
@@ -37,7 +40,7 @@ class HomePage extends Component {
     const { classes } = this.props;
     return this.props.posts.map((post) => {
       return (
-        <Card key="key" className={classes.card}>
+        <Card key={post.id} className={classes.card}>
           <CardMedia
             className={classes.media}
             image={post.cover_url}
@@ -47,12 +50,21 @@ class HomePage extends Component {
             <Typography gutterBottom variant="h5" component="h2">
               {post.title}
             </Typography>
-            <Typography className="tags" component="p" style={{ fontStyle: 'italic', textAlign: 'right' }}>
+            <Typography className="tags" component="p" style={{ fontStyle: 'italic', textAlign: 'right', marginBottom: '8%' }}>
               tags: {post.tags}
             </Typography>
 
           </CardContent>
-          <CardActions style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
+          <CardActions style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
+            position: 'absolute',
+            width: '100%',
+            bottom: '0px',
+            alignItems: 'flex-end',
+          }}
+          >
             <Button size="small" color="primary">
               <Link style={{ textDecoration: 'none' }}
                 to={{

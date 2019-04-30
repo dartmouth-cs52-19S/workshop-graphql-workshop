@@ -39,7 +39,7 @@ const App = () => {
             <div className="menu-toolbar">
               <NavLink variant="h6" style={{ textDecoration: 'none', color: 'white' }} exact to="/">Home</NavLink>
               <Typography variant="h4" color="inherit">
-                Welcome to your Blog
+                Welcome to the CS52 Community Meme Page
               </Typography>
               <NavLink variant="h6" style={{ textDecoration: 'none', color: 'white' }} to="/post/new">Add New Post</NavLink>
             </div>

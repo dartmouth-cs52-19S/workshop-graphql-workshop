@@ -1,6 +1,8 @@
+/* eslint-disable react/no-danger */
 /* eslint-disable react/no-access-state-in-setstate */
 import React, { Component } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
+import marked from 'marked';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
@@ -20,14 +22,14 @@ const styles = theme => ({
     minWidth: '90%',
     maxWidth: '90%',
     minHeight: '50%',
+    maxHeight: '75%',
     marginTop: '3%',
     marginBottom: '3%',
-    height: '100%',
-    width: '100%',
 
   },
   media: {
-    minHeight: 350,
+    height: 0,
+    paddingTop: '56.25%',
   },
   input: {
     display: 'none',
@@ -136,7 +138,8 @@ class Post extends Component {
   onSave(event) {
     event.preventDefault();
     this.props.updatePost(this.state.post, this.props.history);
-    setTimeout(() => { this.setState({ isEditing: false }); }, 150);
+    // This is to prevent the user from seeing the data load in
+    setTimeout(() => { this.setState({ isEditing: false }); }, 200);
   }
 
   renderPost(classes) {
@@ -259,7 +262,7 @@ class Post extends Component {
               {this.props.post.title}
             </Typography>
             <Typography component="p">
-              {this.props.post.content}
+              <p dangerouslySetInnerHTML={{ __html: marked(this.props.post.content || '') }} />
             </Typography>
             <Typography component="p" style={{ fontStyle: 'italic', textAlign: 'right' }}>
               tags: {this.props.post.tags}
