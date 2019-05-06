@@ -41,7 +41,7 @@ class HomePage extends Component {
     const { classes } = this.props;
     return this.props.posts.map((post) => {
       return (
-        <Card key={post.id} className={classes.card}>
+        <Card key={post._id} className={classes.card}>
           <CardMedia
             className={classes.media}
             image={post.cover_url}
