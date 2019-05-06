@@ -69,7 +69,7 @@ class HomePage extends Component {
             <Button size="small" color="primary">
               <Link style={{ textDecoration: 'none' }}
                 to={{
-                  pathname: `/posts/${post.id}`,
+                  pathname: `/posts/${post._id}`,
                 }}
               >
                 View Post

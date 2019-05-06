@@ -63,6 +63,23 @@ class Post extends Component {
     this.onSave = this.onSave.bind(this);
   }
 
+
+  componentWillMount() {
+    if (!this.state.isEditing) {
+      this.setState(
+        {
+          post: {
+            ...this.state.post,
+            title: '',
+            content: '',
+            tags: '',
+            cover_url: '',
+          },
+        },
+      );
+    }
+  }
+
   componentDidMount() {
     this.props.fetchPost(this.props.match.params.postID);
   }

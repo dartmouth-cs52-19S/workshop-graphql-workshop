@@ -21,6 +21,7 @@ const styles = {
     marginRight: 10,
   },
 };
+
 const App = () => {
   const FallBack = () => {
     return (

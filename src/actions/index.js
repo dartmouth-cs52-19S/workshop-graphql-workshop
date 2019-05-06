@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-const ROOT_URL = 'https://cs52-blog.herokuapp.com/api';
-const API_KEY = '?key=t_glasgow';
+const ROOT_URL = 'http://localhost:9090/api';
 
 // keys for actiontypes
 export const ActionTypes = {
@@ -10,12 +9,13 @@ export const ActionTypes = {
   UPDATE_POST: 'UPDATE_POST',
   CREATE_POST: 'CREATE_POST',
   DELETE_POST: 'DELETE_POST',
+  ERROR_SET: 'ERROR_SET',
 };
 
 /* Function based off example found on the Lab 4 page on CS52.me */
 export function fetchPosts() {
   return (dispatch) => {
-    axios.get(`${ROOT_URL}/posts${API_KEY}`)
+    axios.get(`${ROOT_URL}/posts`)
       .then((response) => {
         dispatch({ type: ActionTypes.FETCH_POSTS, payload: response.data });
       })
@@ -28,7 +28,7 @@ export function fetchPosts() {
 
 export function createPost(post, history) {
   return (dispatch) => {
-    axios.post(`${ROOT_URL}/posts${API_KEY}`, post)
+    axios.post(`${ROOT_URL}/posts`, post)
       .then((response) => {
         dispatch({ type: ActionTypes.CREATE_POST, payload: response.data });
         history.push('/');
@@ -41,7 +41,7 @@ export function createPost(post, history) {
 
 export function updatePost(post) {
   return (dispatch) => {
-    axios.put(`${ROOT_URL}/posts/${post.id}${API_KEY}`, post)
+    axios.put(`${ROOT_URL}/posts/${post.id}`, post)
       .then((response) => {
         dispatch({ type: ActionTypes.UPDATE_POST, payload: response.data });
       })
@@ -53,7 +53,7 @@ export function updatePost(post) {
 
 export function fetchPost(id) {
   return (dispatch) => {
-    axios.get(`${ROOT_URL}/posts/${id}${API_KEY}`)
+    axios.get(`${ROOT_URL}/posts/${id}`)
       .then((response) => {
         dispatch({ type: ActionTypes.FETCH_POST, payload: response.data });
       })
@@ -65,7 +65,7 @@ export function fetchPost(id) {
 
 export function deletePost(id, history) {
   return (dispatch) => {
-    axios.delete(`${ROOT_URL}/posts/${id}${API_KEY}`)
+    axios.delete(`${ROOT_URL}/posts/${id}`)
       .then((response) => {
         dispatch({ type: ActionTypes.DELETE_POST, payload: response.data });
         history.push('/');
