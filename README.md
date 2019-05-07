@@ -46,4 +46,3 @@ Here's a resource for [github markdown](https://guides.github.com/features/maste
 ## Resources
 
 * cite any resources
->>>>>>> 6f5caf0f636e60f6b66fc3b3771e627d6a1709cc
