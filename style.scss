@@ -28,7 +28,7 @@ h4 {
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 
@@ -42,11 +42,24 @@ input, button, i, textarea {
   outline: none;
 }
 
-.home-page-posts {
+.home-page-results {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 
+}
+
+.title-star {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+}
+
+.home-page-search {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
 .new-post {
@@ -70,7 +83,11 @@ input, button, i, textarea {
 
   }
 }
-
+.modal-repo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
 .tag {
   font-style: italic;
 }
