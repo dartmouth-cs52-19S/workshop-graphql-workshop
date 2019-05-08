@@ -1,12 +1,16 @@
-# CS52 Workshops:  TITLE OF YOUR WORKSHOP
+# CS52 Workshops:  GraphQL
 
-![](http://i.giphy.com/eUh8NINbZf9Ys.gif)
+![](https://cdn-images-1.medium.com/max/1200/1*RB2I_XF4sJxKoO8sGe0Gcw.gif)
 
 Brief motivation here as well as in presentation
 
 ## Overview
 
-Summary of what we're about to do.
+In this tutorial we will:
+- check out GitHub's GraphQL API with their explorer
+- build a pretty cool and complex query, and play with some mutations that the GitHub API exposes to us
+- wire up Apollo in a React application so that we can make GraphQL queries from the front end
+- incorporate the queries we built into a GitHub search tool!
 
 ## Setup
 
@@ -14,10 +18,10 @@ Any necessary setup steps
 
 ## Step by Step
 
-## Query building
+### Query building
 **In this section**, we'll explore the GitHub GraphQL API a bit. Then, we'll build a GraphQL query that, given a GitHub username, returns some information about that user's repositories. 
 
-### Our first GraphQL query
+#### Our first GraphQL query
  First, head over to **[GitHub's API explorer](https://developer.github.com/v4/explorer/)** (make sure you're logged into GitHub). 
  
  If it's your first time using the explorer, the editor should contain the following query to show your username. If not, copy and paste this snippet into the API explorer's editor: 
@@ -35,7 +39,7 @@ Try it out by pressing :arrow_forward:. On the right side of the explorer, you s
 
 We'll use this interface to build and test our query and mutations before integrating them into our front end.
 
-### Exploring GitHub's GraphQL API with introspection!
+#### Exploring GitHub's GraphQL API with introspection!
 GraphQL supports **[introspection](https://graphql.org/learn/introspection/)**, meaning we can ask the API about the operations it supports.
 
 Let's check out all of the types defined in the GitHub schema. Paste the following query into the API explorer and check out the result by pressing :arrow_forward:.
@@ -70,7 +74,7 @@ Notice that we've passed an argument to the `__type` field (`name: "Repository"`
 
 Cool! Now you should see some more detailed information about the `Repository` type, including all of its fields. Feel free to explore a bit more through introspection, or move on and let's build our application's query!
 
-### Building our query
+#### Building our query
 We want to write a query that, given a GitHub username, returns a listing of some of their repositories along with some extra information (such as commit history). 
 
 With the REST version of GitHub's API, this would likely require hitting a few different endpoints a few different times (for example, fetching commit histories for each repository), and receiving extraneous data in each request. With GraphQL, we can get all of our data in one fetch, and only get the data we want!
@@ -161,7 +165,7 @@ This simple query doesn't do much, but contains examples of the syntax we'll use
 - Next, you'll see the *inline fragment* discussed earlier (`... on User`), which specifies that the following payload items relate only to `User` types returned in our search results.
 - Finally, we return the `name` associated with the `User`.
 
-#### But what about repos!?
+##### But what about repos!?
 With a REST API, you might have to make a follow up request now that you've got the `User`. Not with GraphQL though, we can just include more nested fields!
 
 Along with the `name` field, let's request the `first` 20 repositories that are returned from the search. Now you should have something like this:
@@ -187,7 +191,7 @@ query {
 ```
 Press :arrow_forward: and check out the result. You should see the names of 20 repositories you've contributed to! We're going to want more data than that though. In addition to the `name` of each repository, let's also ask GitHub for `id`, `createdAt`, `description`, and `url`. Press :arrow_forward: to test it again! 
 
-#### At this point, your query should look like this:
+##### At this point, your query should look like this:
 ```
 query {
   search(query: "beneisnr", type: USER, first:1) {
@@ -213,7 +217,7 @@ query {
 }
 ```
 
-#### Getting commit history
+##### Getting commit history
 To further demonstrate the power of GraphQL, let's also ask for a brief commit history for the default branch of each of these repositories.
 
 Underneath the rest of the data fields we're requesting about each repository, add the following commit history payload we just discussed:
@@ -242,7 +246,7 @@ defaultBranchRef {
 - We can then use the *inline fragment* (`... on Commit`) to specify that we are interested in those Git objects which are `Commits`.
 - Next, we request the `totalCount` of commits, and for the `first` 10 items in the commit history, request their `committedDate` by following the same nesting of `edges` and `nodes` we used before.
 
-#### Final step for our query!
+##### Final step for our query!
 Now that the query works for your username, let's get it ready for our app.
 
 Make the following changes to your query's signature:
@@ -260,7 +264,7 @@ query listRepos($queryString: String!) {
 ```
 Make sure it works by testing it out! In bottom of the API explorer, you can supply values for your query arguments like so: `{"queryString": "USERNAME"}`.
 
-#### That's it!
+##### That's it!
 You built a pretty intense query in GraphQL that is much more efficient than it's REST counterpart would be.
 
 At this point, your completed query should look something like this:
@@ -306,12 +310,12 @@ query listRepos($queryString:String!){
 }
 ```
 
-## Mutations
+### Mutations
 **In this section**, we'll try out a few mutations GitHub exposes in their API, and get them ready to integrate into our app.
 
 **Before you delete your query from the explorer**, copy down an `id` field so we can use them as arguments to the mutations. It might also help to open the repo in a browser window to see the effects.
 
-### [addStar](https://developer.github.com/v4/mutation/addstar/)
+#### [addStar](https://developer.github.com/v4/mutation/addstar/)
 The first mutation we'll explore is [`addStar`](https://developer.github.com/v4/mutation/addstar/) -- it simply 'stars' a repository.
 
 Along with changing some data on the server, GraphQL mutations can possibly return some nested data fields if we request them. In this example, we'll be able to return a boolean stating whether or not the user has 'starred' the repository. 
@@ -332,7 +336,7 @@ mutation addStar($id: ID!) {
 
 Try the mutation out by pressing :arrow_forward: in the explorer. If you switch over to the repository in your browser, it should show that you've 'starred' it!
 
-### [removeStar](https://developer.github.com/v4/mutation/removestar/)
+#### [removeStar](https://developer.github.com/v4/mutation/removestar/)
 The idea behind `removeStar` is the same -- copy the following into your explorer, and confirm that the query removes the star you added in the above section.
 
 ```
@@ -345,14 +349,16 @@ mutation removeStar($id: ID!) {
 }
 ```
 
-### That's it!
-At this point, you've learned how to explore a GraphQL API through introspection, form some really efficient nested queries, and use a few simple mutations. 
+#### That's it!
+At this point, you've learned how to explore a GraphQL API through introspection, form some really efficient nested queries, and use a few simple mutations.
 
-
+### Setting up Apollo
 
 ## Summary / What you Learned
 
-* [ ] can be checkboxes
+* [ ] How to explore a GraphQL API through introspection
+* [ ] How to form GraphQL queries and mutations
+* [ ] How to integrate Apollo to make use of GraphQL in your React apps
 
 ## Reflection
 
