@@ -2,19 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import { fetchResults } from '../actions';
+import { fetchRepos } from '../actions';
+import RepoCard from './RepoCard';
 
-// repos commits issues
-/* Some UI Components adapted from Material UI */
 const styles = theme => ({
   card: {
     position: 'relative',
@@ -23,7 +19,6 @@ const styles = theme => ({
     maxWidth: '25%',
     marginTop: '3%',
     marginLeft: '5%',
-
   },
   media: {
     height: 0,
@@ -51,33 +46,19 @@ const styles = theme => ({
   },
 });
 
-function getModalStyle() {
-  const top = 50;
-  const left = 50;
-
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
-}
-
-
 class HomePage extends Component {
   constructor(props) {
     super(props);
-    this.renderResults = this.renderResults.bind(this);
     this.renderSearchBar = this.renderSearchBar.bind(this);
   }
 
   state = {
     anchorEl: null,
     searchTerm: '',
-    modalOpen: false,
   };
 
   componentDidMount() {
-    this.props.fetchResults();
+    this.props.fetchRepos('theodorewahle');
   }
 
   handleClick = (event) => {
@@ -88,13 +69,6 @@ class HomePage extends Component {
     this.setState({ anchorEl: null });
   };
 
-  handleModalOpen = () => {
-    this.setState({ modalOpen: true });
-  };
-
-  handleModalClose = () => {
-    this.setState({ modalOpen: false });
-  };
 
   onSearchChange = (event) => {
     event.preventDefault();
@@ -106,50 +80,6 @@ class HomePage extends Component {
     console.log(`Pressed keyCode ${event.key}`);
   }
 
-  renderResults() {
-    const { classes } = this.props;
-
-    // repo name
-    // created date
-    // description
-    // github url
-    // modal to show details
-    // star
-    return (
-      <Card key="1" className={classes.card}>
-        <CardContent>
-          <div className="title-star">
-            <Typography gutterBottom variant="h5" component="h2">
-              Sample Title
-            </Typography>
-            <i className="fa fa-star" style={{ fontSize: '24px', color: 'yellow' }} />
-          </div>
-          <Typography gutterBottom component="p">
-            Sample Description
-          </Typography>
-          <Typography className="tags" component="p" style={{ fontStyle: 'italic', textAlign: 'right', marginBottom: '8%' }}>
-            Created On: 01/01/1970
-          </Typography>
-
-        </CardContent>
-        <CardActions style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'flex-end',
-          position: 'absolute',
-          width: '100%',
-          bottom: '0px',
-          alignItems: 'flex-end',
-        }}
-        >
-          <Button size="small" onClick={() => this.handleModalOpen()} color="primary">
-            View Details
-          </Button>
-        </CardActions>
-      </Card>
-
-    );
-  }
 
   renderSearchBar() {
     const { classes } = this.props;
@@ -187,38 +117,18 @@ class HomePage extends Component {
     );
   }
 
-  renderModal() {
-    const { classes } = this.props;
-    return (
-      <Modal
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-        open={this.state.modalOpen}
-        onClose={this.handleClose}
-      >
-        <div style={getModalStyle()} className={classes.paper}>
-          <div className="modal-repo">
-            <Typography variant="h6" id="modal-title">
-              Repo Name
-            </Typography>
-            <i className="fa fa-window-close" onClick={() => this.handleModalClose()} aria-hidden="true" />
-          </div>
-          <Typography variant="subtitle1" id="simple-modal-description">
-            Repo Details
-          </Typography>
-        </div>
-      </Modal>
-    );
-  }
-
   render() {
+    console.log('these are the rpops', this.props);
     return (
       <div className="home-page">
         {this.renderSearchBar()}
         <div className="home-page-results">
-          {this.renderResults()}
+          {this.props.repos.repos.map((repo) => {
+            return (
+              <RepoCard key={repo.name} classes={this.props.classes} repo={repo} handleModalOpen={this.handleModalOpen} />
+            );
+          })}
         </div>
-        {this.renderModal()}
       </div>
 
     );
@@ -227,8 +137,8 @@ class HomePage extends Component {
 
 const mapStateToProps = state => (
   {
-    results: state.results,
+    repos: state.repos,
   }
 );
 
-export default withStyles(styles)(withRouter(connect(mapStateToProps, { fetchResults })(HomePage)));
+export default withStyles(styles)(withRouter(connect(mapStateToProps, { fetchRepos })(HomePage)));

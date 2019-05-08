@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import ResultsReducer from './resultsReducer';
+import ReposReducer from './reposReducer';
 
 const rootReducer = combineReducers({
-  results: ResultsReducer,
+  repos: ReposReducer,
 });
 
 export default rootReducer;
