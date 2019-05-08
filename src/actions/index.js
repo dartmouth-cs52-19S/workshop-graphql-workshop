@@ -1,65 +1,25 @@
-import gql from 'graphql-tag';
 import ApolloClient from 'apollo-boost';
+import { GetRepos, AddStar, RemoveStar } from './operations';
 /* const ROOT_URL = graphql api key */
 
 // keys for actiontypes
 export const ActionTypes = {
   FETCH_REPOS: 'FETCH_REPOS',
   ERROR_SET: 'ERROR_SET',
+  STAR_CHANGE: 'STAR_CHANGE'
 };
 
 const GITHUB_API = 'https://api.github.com/graphql';
-const API_KEY = '43065f24def5b9592458c1d57af254da23c2bde2';
+const API_KEY = 'd1d5c0d0a1c52c338b2dfb4e0e098e2c0c638276';
 
 const client = new ApolloClient({
   uri: GITHUB_API,
   headers: { authorization: `bearer ${API_KEY}` },
 });
 
-const GetRepos = gql`
-query listRepos($queryString:String!){
-  search(query: $queryString, type: USER, first:1) {
-    edges {
-      node {
-        ... on User {
-          name
-          repositories(first: 20) {
-            edges {
-              node {
-                name
-                id
-                viewerHasStarred
-                createdAt
-                description
-                url
-                defaultBranchRef {
-                  target {
-                    ... on Commit {
-                      history(first:10) {
-                        totalCount
-                        edges {
-                          node {
-                            ... on Commit {
-                              committedDate
-                              message
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-`;
 
 export function fetchRepos(query) {
+  console.log("fetching reops agains",  query)
   return (dispatch) => {
     client.query({
       query: GetRepos,
@@ -68,45 +28,46 @@ export function fetchRepos(query) {
       },
     })
       .then((response) => {
-        const repos = response.data.search.edges.map(repo => repo.node);
+        const repos = response.data.search.edges[0].node.repositories.edges.map(repo => repo.node)
         dispatch({ type: ActionTypes.FETCH_REPOS, payload: repos });
       })
       .catch((error) => {
-        dispatch({ type: ActionTypes.FETCH_REPOS, error });
+        console.log("heres an erroe", error)
+        dispatch({ type: ActionTypes.ERROR_SET, error });
       });
   };
 }
 
-// query GetRepos($queryString: String!) {
-//   search(query: $queryString, type: REPOSITORY, first: 20) {
-//     repositoryCount
-//     edges {
-//       node {
-//         ... on Repository {
-//           id
-//           name
-//           createdAt
-//           description
-//           url
-//           defaultBranchRef {
-//             target {
-//               ... on Commit {
-//                 history(first: 10) {
-//                   totalCount
-//                   edges {
-//                     node {
-//                       ... on Commit {
-//                         committedDate
-//                         message
-//                       }
-//                     }
-//                   }
-//                 }
-//               }
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-// }
+export function addStar(repoID, searchTerm) {
+  return (dispatch) => {
+    client.mutate({
+      mutation: AddStar,
+      variables: {
+        id: repoID,
+      },
+    })
+      .then((res) => {
+        dispatch(fetchRepos(searchTerm))
+      })
+      .catch((error) => {
+        dispatch({ type: ActionTypes.ERROR_SET, error });
+      });
+  };
+}
+
+export function removeStar(repoID, searchTerm) {
+  return (dispatch) => {
+    client.mutate({
+      mutation: RemoveStar,
+      variables: {
+        id: repoID,
+      },
+    })
+      .then((response) => {
+        dispatch({ type: ActionTypes.FETCH_REPOS, payload: {} });
+      })
+      .catch((error) => {
+        dispatch({ type: ActionTypes.ERROR_SET, error });
+      });
+  };
+}

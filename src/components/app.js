@@ -7,7 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import HomePage from './homePage';
+import SearchCards from './SearchCards';
 
 /* Some UI Components adapted from Material UI */
 const styles = {
@@ -50,7 +50,7 @@ const App = () => {
       <div>
         <Nav />
         <Switch>
-          <Route exact path="/" component={HomePage} />
+          <Route exact path="/" component={SearchCards} />
           <Route component={FallBack} />
         </Switch>
       </div>

@@ -42,7 +42,7 @@ const styles = theme => ({
   },
 });
 
-class HomePage extends Component {
+class SearchCards extends Component {
   constructor(props) {
     super(props);
     this.renderSearchBar = this.renderSearchBar.bind(this);
@@ -50,13 +50,13 @@ class HomePage extends Component {
 
   state = {
     searchTerm: '',
+    lastSearchTerm: '',
   };
 
   componentDidMount() {
   }
 
   handleClick = (event) => {
-    // BUTTON LOGIC HERE
     return null;
   };
 
@@ -66,14 +66,15 @@ class HomePage extends Component {
   }
 
   onSearchSubmit = () => {
-    const { searchTerm } = this.state
-    console.log("searchsubmit", searchTerm)
+    const { searchTerm } = this.state;
+    this.setState({ lastSearchTerm: searchTerm });
     this.props.fetchRepos(searchTerm);
   }
 
 
   renderSearchBar() {
     const { classes } = this.props;
+
     return (
       <div className="home-page-search">
         <TextField
@@ -92,15 +93,16 @@ class HomePage extends Component {
   }
 
   render() {
-    console.log('these are the props', this.props);
-    if (this.props.repos.repos.length > 0) {
+    const { lastSearchTerm } = this.state;
+
+    if (this.props.repos.repos && this.props.repos.repos.length > 0) {
       return (
         <div className="home-page">
           {this.renderSearchBar()}
           <div className="home-page-results">
-            {this.props.repos.repos[0].repositories.edges.map((repo) => {
+            {this.props.repos.repos.map((repo) => {
               return (
-                <RepoCard key={repo.id} classes={this.props.classes} repo={repo.node} handleModalOpen={this.handleModalOpen} />
+                <RepoCard key={repo.id} classes={this.props.classes} repo={repo} handleModalOpen={this.handleModalOpen} lastSearchTerm={lastSearchTerm} />
               );
             })}
           </div>
@@ -115,10 +117,11 @@ class HomePage extends Component {
   }
 }
 
-const mapStateToProps = state => (
-  {
-    repos: state.repos,
-  }
-);
+const mapStateToProps = ({ repos }) => ({ repos });
 
-export default withStyles(styles)(withRouter(connect(mapStateToProps, { fetchRepos })(HomePage)));
+const mapDispatchToProps = {
+  fetchRepos,
+};
+
+
+export default withStyles(styles)(withRouter(connect(mapStateToProps, mapDispatchToProps)(SearchCards)));
