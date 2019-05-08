@@ -32,7 +32,7 @@ class CommitsModal extends Component {
           </div>
           {
             commits.map(commit => (
-              <div className="commit-modal-info">
+              <div className="commit-modal-info" key={commit.node.message}>
                 <div className="commit-modal-message">
                   <Typography variant="subtitle1" id="simple-modal-description">
                     {commit.node.message}
