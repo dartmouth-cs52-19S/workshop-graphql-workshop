@@ -91,6 +91,24 @@ input, button, i, textarea {
 .tag {
   font-style: italic;
 }
+.star-div {
+  outline: none
+}
+.commit-modal-info {
+  display: flex;
+  flex-flow: row wrap;
+  border-top: 0.05em solid lightgrey;
+
+  .commit-modal-message {
+    word-wrap: break-word;
+    flex: 2;
+  }
+  .commit-modal-date {
+    flex: 1;
+    font-style: italic;
+  }
+
+}
 
 .view-post{
   display: flex;

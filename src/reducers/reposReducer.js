@@ -5,7 +5,7 @@ const ReposReducer = (state = {
 }, action) => {
   switch (action.type) {
     case ActionTypes.FETCH_REPOS:
-      return Object.assign({}, state,  { repos: action.payload} );
+      return Object.assign({}, state, { repos: action.payload });
     default:
       return state;
   }

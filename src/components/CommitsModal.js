@@ -15,7 +15,7 @@ class CommitsModal extends Component {
         transform: `translate(-${top}%, -${left}%)`,
       };
     }
-    const commits = repo.defaultBranchRef.target.history.edges;
+    const commits = repo.defaultBranchRef ? repo.defaultBranchRef.target.history.edges : [];
     return (
       <Modal
         aria-labelledby="simple-modal-title"
@@ -32,13 +32,17 @@ class CommitsModal extends Component {
           </div>
           {
             commits.map(commit => (
-              <div>
-                <Typography variant="subtitle1" id="simple-modal-description">
-                  {commit.node.committedDate.split('T')[0]}
-                </Typography>
-                <Typography variant="subtitle1" id="simple-modal-description">
-                  {commit.node.message}
-                </Typography>
+              <div className="commit-modal-info">
+                <div className="commit-modal-message">
+                  <Typography variant="subtitle1" id="simple-modal-description">
+                    {commit.node.message}
+                  </Typography>
+                </div>
+                <div className="commit-modal-date">
+                  <Typography variant="subtitle1" id="simple-modal-description">
+                    {commit.node.committedDate.split('T')[0]}
+                  </Typography>
+                </div>
               </div>
             ))
           }

@@ -5,8 +5,12 @@ import {
 import CommitsModal from './CommitsModal';
 
 class RepoCard extends Component {
-  state = {
-    modalOpen: false,
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalOpen: false,
+      isStared: props.repo.viewerHasStarred,
+    };
   }
 
   handleModalOpen = () => {
@@ -17,17 +21,43 @@ class RepoCard extends Component {
     this.setState({ modalOpen: false });
   };
 
+  onStarClick = (event) => {
+    if (event.target.className === 'far fa-star') {
+      this.setState({ isStared: true });
+    } else {
+      this.setState({ isStared: false });
+    }
+  }
+
+  renderStar = (isStared) => {
+    if (isStared) {
+      return (
+        <div className="star-div" onClick={this.onStarClick} role="button" tabIndex={0}>
+          <i className="fa fa-star" style={{ fontSize: '24px', color: 'yellow' }} />
+        </div>
+      );
+    } else {
+      return (
+        <div className="star-div" onClick={this.onStarClick} role="button" tabIndex={0}>
+          <i className="far fa-star" style={{ fontSize: '24px', color: 'yellow' }} />
+        </div>
+      );
+    }
+  }
+
   render() {
     const { classes, repo } = this.props;
+    console.log(repo);
     return (
-      <Card key="1" className={classes.card}>
+      <Card key={repo.id} className={classes.card}>
         <CommitsModal repo={repo} modalOpen={this.state.modalOpen} handleModalClose={this.handleModalClose} classes={classes} />
         <CardContent>
           <div className="title-star">
             <Typography gutterBottom variant="h5" component="h2">
               {repo.name}
             </Typography>
-            <i className="fa fa-star" style={{ fontSize: '24px', color: 'yellow' }} />
+            {this.renderStar(this.state.isStared)}
+
           </div>
           <Typography gutterBottom component="p">
             {repo.description}
