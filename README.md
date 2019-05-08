@@ -2,23 +2,30 @@
 
 ![](https://cdn-images-1.medium.com/max/1200/1*RB2I_XF4sJxKoO8sGe0Gcw.gif)
 
-Brief motivation here as well as in presentation
+Imagine how you might query GitHub's REST API to find a user's repositories, and the commit history for each one. First, you might `GET /users/:username/repos` to get a list of repositories, then for each repository, `GET /repos/:owner/:repo/commits` to get the commit history. Not only did this make *n+1* API calls (where *n* is the number of repositories), it also returned **WAY** more data than we'd actually use.
+
+GraphQL is an efficient, powerful alternative to the REST API spec. In contrast to a REST API, GraphQL APIs typically expose just one endpoint and allow the client to declare the fields of data it needs. In fact, using [GitHub's GraphQL API](https://developer.github.com/v4/),  we can (and will!) accomplish the above in **just ONE API CALL!**, and only receive the data we want.
 
 ## Overview
 
 In this tutorial we will:
 - check out GitHub's GraphQL API with their explorer
-- build a pretty cool and complex query, and play with some mutations that the GitHub API exposes to us
+- build a pretty complex query, and play with some mutations that the GitHub API exposes to us
 - wire up Apollo in a React application so that we can make GraphQL queries from the front end
-- incorporate the queries we built into a GitHub search tool!
+- incorporate the queries we built into a GitHub search tool React app!
 
 ## Setup
 
-Any necessary setup steps
+ 1. `git clone https://github.com/dartmouth-cs52-19S/workshop-graphql-workshop.git`
+ 2. `cd workshop-graphql-workshop`
+ 3. `yarn`
+ 4. `yarn start`
+ 5. In your browser, head to [GitHub to generate a personal access token](https://github.com/settings/tokens/new), and paste it somewhere safe.
 
 ## Step by Step
 
 ### Query building
+
 **In this section**, we'll explore the GitHub GraphQL API a bit. Then, we'll build a GraphQL query that, given a GitHub username, returns some information about that user's repositories. 
 
 #### Our first GraphQL query
@@ -33,7 +40,7 @@ Any necessary setup steps
 }
  ```
 
-Take a look at this little query. The keyword `query` is called the *root operation* or *root field*, and means that we want to read some data. Everything that follows (`viewer` and `login`) are called the *payload* of our query, and specify the exact fields of data we expect. Notice that the payload appears to be shaped like the keys of a JSON object!
+Take a look at this little query. The keyword `query` is the intended operation, and means that we want to read some data. The keyword `viewer` acts as the root of our query (think of the root of a graph). Everything that follows (`viewer` and `login`) are called the *payload* of our query, and specify the exact fields of data we expect. Notice that the payload appears to be shaped like the keys of a JSON object!
  
 Try it out by pressing :arrow_forward:. On the right side of the explorer, you should see a data object that looks sort of like the query, but filled in with some additional data (your username). Cool!
 
@@ -72,10 +79,10 @@ query {
 ```
 Notice that we've passed an argument to the `__type` field (`name: "Repository"`). Fields can accept arguments that are specified in the schema. Let's see the result by pressing :arrow_forward:.
 
-Cool! Now you should see some more detailed information about the `Repository` type, including all of its fields. Feel free to explore a bit more through introspection, or move on and let's build our application's query!
+Cool! Now you should see some more detailed information about the `Repository` type, including all of its fields. Feel free to explore a bit more through introspection (or the [API docs](https://developer.github.com/v4/)), and when you're done and let's build our application's query!
 
 #### Building our query
-We want to write a query that, given a GitHub username, returns a listing of some of their repositories along with some extra information (such as commit history). 
+**We want to write a query that**, given a GitHub username, returns a listing of some of their repositories along with some extra information (such as commit history). 
 
 With the REST version of GitHub's API, this would likely require hitting a few different endpoints a few different times (for example, fetching commit histories for each repository), and receiving extraneous data in each request. With GraphQL, we can get all of our data in one fetch, and only get the data we want!
 
@@ -189,12 +196,12 @@ query {
   }
 }
 ```
-Press :arrow_forward: and check out the result. You should see the names of 20 repositories you've contributed to! We're going to want more data than that though. In addition to the `name` of each repository, let's also ask GitHub for `id`, `createdAt`, `description`, and `url`. Press :arrow_forward: to test it again! 
+Press :arrow_forward: and check out the result. You should see the names of 20 repositories you've contributed to! We're going to want more data than that though. In addition to the `name` of each repository, let's also ask GitHub for `id`, `viewerHasStarred`, `createdAt`, `description`, and `url`. Press :arrow_forward: to test it again! 
 
 ##### At this point, your query should look like this:
 ```
 query {
-  search(query: "beneisnr", type: USER, first:1) {
+  search(query: "YOUR_USERNAME", type: USER, first:1) {
     edges {
       node {
         ... on User {
@@ -204,6 +211,7 @@ query {
               node {
                 name
                 id
+                viewerHasStarred
                 createdAt
                 description
                 url
@@ -281,6 +289,7 @@ query listRepos($queryString:String!){
               node {
                 name
                 id
+                viewerHasStarred
                 createdAt
                 description
                 url
@@ -309,6 +318,7 @@ query listRepos($queryString:String!){
   }
 }
 ```
+**Copy and paste your query somewhere safe -- we'll be using it again soon.**
 
 ### Mutations
 **In this section**, we'll try out a few mutations GitHub exposes in their API, and get them ready to integrate into our app.
@@ -336,8 +346,10 @@ mutation addStar($id: ID!) {
 
 Try the mutation out by pressing :arrow_forward: in the explorer. If you switch over to the repository in your browser, it should show that you've 'starred' it!
 
+**Copy and paste your mutation somewhere safe -- we'll be using it again soon.**
+
 #### [removeStar](https://developer.github.com/v4/mutation/removestar/)
-The idea behind `removeStar` is the same -- copy the following into your explorer, and confirm that the query removes the star you added in the above section.
+The idea behind `removeStar` is the same -- copy the following into your explorer, and confirm that the query removes the star you added in the above section. (Make sure you've specified the query variable!).
 
 ```
 mutation removeStar($id: ID!) {
@@ -349,10 +361,13 @@ mutation removeStar($id: ID!) {
 }
 ```
 
-#### That's it!
-At this point, you've learned how to explore a GraphQL API through introspection, form some really efficient nested queries, and use a few simple mutations.
+**Copy and paste your mutation somewhere safe -- we'll be using it again soon.**
 
-### Setting up Apollo
+#### That's it!
+At this point, you've learned how to explore a GraphQL API through introspection, form some really efficient nested queries, and use a few simple mutations. Now, let's see how we can integrate what we just learned into our React application.
+
+### Using GraphQL in a React app with Apollo
+Now that we have our query and mutations built, we can integrate them into a React app. Before we start, make sure your development server is running (if not, do `yarn start`) and you can see the starter app in the browser.
 
 ## Summary / What you Learned
 
@@ -362,10 +377,10 @@ At this point, you've learned how to explore a GraphQL API through introspection
 
 ## Reflection
 
-*2 questions for the workshop participants to answer (very short answer) when they submit the workshop. These should try to get at something core to the workshop, the what and the why.*
+*Please answer the following questions*
 
-* [ ] 2 reflection questions
-* [ ] 2 reflection questions
+* [ ] What aspects of GraphQL make well-formed queries more efficient than their REST counterparts?
+* [ ] Are there any downsides to using a GraphQL API?
 
 
 ## Resources
@@ -374,4 +389,3 @@ At this point, you've learned how to explore a GraphQL API through introspection
 - [GitHub GraphQL API](https://developer.github.com/v4/)
 - [GraphQL docs](https://graphql.org/)
 - [How to query your schema with GraphQL fragments](https://medium.com/graphql-mastery/graphql-fragments-and-how-to-use-them-8ee30b44f59e)
-
