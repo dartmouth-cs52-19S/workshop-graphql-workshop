@@ -364,4 +364,8 @@ At this point, you've learned how to explore a GraphQL API through introspection
 
 ## Resources
 
-* cite any resources
+- [A complete React with Apollo and GraphQL Tutorial](https://www.robinwieruch.de/react-graphql-apollo-tutorial/#react-apollo-client-query)
+- [GitHub GraphQL API](https://developer.github.com/v4/)
+- [GraphQL docs](https://graphql.org/)
+- [How to query your schema with GraphQL fragments](https://medium.com/graphql-mastery/graphql-fragments-and-how-to-use-them-8ee30b44f59e)
+
