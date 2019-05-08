@@ -53,7 +53,6 @@ class HomePage extends Component {
   };
 
   componentDidMount() {
-    this.props.fetchRepos('theodorewahle');
   }
 
   handleClick = (event) => {
@@ -63,13 +62,13 @@ class HomePage extends Component {
 
 
   onSearchChange = (event) => {
-    event.preventDefault();
     this.setState({ searchTerm: event.target.value });
   }
 
-  onSearchSubmit = (event) => {
-    event.preventDefault();
-    console.log(`Pressed keyCode ${event.key}`);
+  onSearchSubmit = () => {
+    const { searchTerm } = this.state
+    console.log("searchsubmit", searchTerm)
+    this.props.fetchRepos(searchTerm);
   }
 
 
@@ -83,10 +82,9 @@ class HomePage extends Component {
           className={classes.textField}
           onChange={this.onSearchChange}
           value={this.state.searchTerm}
-          onKeyPress={(e) => { if (e.key === 'Enter') { this.onSearchSubmit(e); } }}
           margin="normal"
         />
-        <Button size="small" color="primary" onClick={this.handleClick} style={{ paddingTop: '1%' }}>
+        <Button size="small" color="primary" onClick={this.onSearchSubmit} style={{ paddingTop: '1%' }}>
           Search User
         </Button>
       </div>
