@@ -369,6 +369,12 @@ At this point, you've learned how to explore a GraphQL API through introspection
 ### Using GraphQL in a React app with Apollo
 Now that we have our query and mutations built, we can integrate them into a React app. Before we start, make sure your development server is running (if not, do `yarn start`) and you can see the starter app in the browser.
 
+In your terminal, `yarn add graphql graphql-tag apollo-boost`. 
+
+ - [`graphql`](https://www.npmjs.com/package/graphql) will help parse our GraphQL queries
+ - `graphql-tags` allows us to use JS tagged template literals to parse GraphQL queries
+ - [`apollo-boost`](https://www.npmjs.com/package/apollo-boost) is a library that allows us to easily use GraphQL data in our UI
+
 ## Summary / What you Learned
 
 * [ ] How to explore a GraphQL API through introspection
