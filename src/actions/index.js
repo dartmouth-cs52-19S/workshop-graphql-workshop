@@ -10,24 +10,11 @@ export const ActionTypes = {
 };
 
 const GITHUB_API = 'https://api.github.com/graphql';
-const API_KEY = '36e902690c45480007557581d53a35624a8880e3';
-
-const defaultOptions = {
-  watchQuery: {
-    fetchPolicy: 'no-cache',
-    errorPolicy: 'ignore',
-  },
-  query: {
-    fetchPolicy: 'no-cache',
-    errorPolicy: 'all',
-  },
-};
-
+const API_KEY = '6321858ac97795a931a08c22f9ba3b6ee3e20cea';
 
 const client = new ApolloClient({
   uri: GITHUB_API,
   headers: { authorization: `bearer ${API_KEY}` },
-  defaultOptions,
 });
 
 
@@ -38,6 +25,7 @@ export function fetchRepos(query) {
       variables: {
         queryString: query,
       },
+      fetchPolicy: 'no-cache',
     })
       .then((response) => {
         const repos = response.data.search.edges[0].node.repositories.edges.map(repo => repo.node);
@@ -56,6 +44,7 @@ export function addStar(repoID, searchTerm) {
       variables: {
         id: repoID,
       },
+      fetchPolicy: 'no-cache',
     })
       .then((res) => {
         dispatch(fetchRepos(searchTerm));
@@ -73,9 +62,10 @@ export function removeStar(repoID, searchTerm) {
       variables: {
         id: repoID,
       },
+      fetchPolicy: 'no-cache',
     })
-      .then((res) => {
-        dispatch(fetchRepos(searchTerm));
+      .then(async (res) => {
+        await dispatch(fetchRepos(searchTerm));
       })
       .catch((error) => {
         dispatch({ type: ActionTypes.ERROR_SET, error });

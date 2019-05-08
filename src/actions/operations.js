@@ -8,7 +8,7 @@ mutation AddStar($id: ID!) {
       viewerHasStarred
     }
   }
-}`
+}`;
 
 export const RemoveStar = gql`
 mutation RemoveStar($id: ID!) {
@@ -17,7 +17,7 @@ mutation RemoveStar($id: ID!) {
       viewerHasStarred
     }
   }
-}`
+}`;
 
 
 export const GetRepos = gql`

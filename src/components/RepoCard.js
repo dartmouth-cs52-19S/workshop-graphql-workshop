@@ -35,7 +35,6 @@ class RepoCard extends Component {
 
   render() {
     const { classes, repo } = this.props;
-    console.log("repo", this.props.repo.name, this.props.repo.viewerHasStarred)
     return (
       <Card key={repo.id} className={classes.card}>
         <CommitsModal repo={repo} modalOpen={this.state.modalOpen} handleModalClose={this.handleModalClose} classes={classes} />
@@ -46,12 +45,12 @@ class RepoCard extends Component {
             </Typography>
             {this.props.repo.viewerHasStarred && (
               <div className="star-div" onClick={this.onStarClick} role="button" tabIndex={0}>
-                <i className="fa fa-star" style={{ fontSize: '24px', color: 'yellow' }} />
+                <i className="fa fa-star" style={{ fontSize: '24px', color: 'orange' }} />
               </div>
             )}
             {!this.props.repo.viewerHasStarred && (
               <div className="star-div" onClick={this.onStarClick} role="button" tabIndex={0}>
-                <i className="far fa-star" style={{ fontSize: '24px', color: 'yellow' }} />
+                <i className="far fa-star" style={{ fontSize: '24px', color: 'orange' }} />
               </div>
             )}
           </div>
