@@ -372,8 +372,78 @@ Now that we have our query and mutations built, we can integrate them into a Rea
 In your terminal, `yarn add graphql graphql-tag apollo-boost`. 
 
  - [`graphql`](https://www.npmjs.com/package/graphql) will help parse our GraphQL queries
- - `graphql-tags` allows us to use JS tagged template literals to parse GraphQL queries
+ - `graphql-tag` allows us to use JS tagged template literals to parse GraphQL queries
  - [`apollo-boost`](https://www.npmjs.com/package/apollo-boost) is a library that allows us to easily use GraphQL data in our UI
+
+#### src/actions/index.js
+Then, at the top of src/actions/index.js, import `ApolloClient from 'apollo-boost` and `{ GetRepos, AddStar, RemoveStar } from './operations`.
+
+Next, enter your GitHub API key (that you generated in the setup step) on line 13.
+
+Beneath that paste the following snippet: 
+```
+const client = new ApolloClient({
+  uri: GITHUB_API,
+  headers: { authorization: `bearer ${API_KEY}` },
+});
+```
+What this does is initialize a new instance of Apollo Client with our credentials.
+
+Next, paste the following snippet inside of the function returned from the `fetchRepos` function:
+```
+client.query({
+  query: GetRepos,
+  variables: {
+    queryString: query,
+  },
+})
+.then((response) => {
+  const repos = response.data.search.edges[0].node.repositories.edges.map(repo => repo.node)
+  dispatch({ type: ActionTypes.FETCH_REPOS, payload: repos });
+})
+.catch((error) => {
+  dispatch({ type: ActionTypes.ERROR_SET, error });
+});
+```
+What this does is sends a query named `GetRepos` to GitHub's GraphQL server, then dispatches an action to our Redux store.
+
+Next, paste the following snippet inside of the function returned from the `addStar` function:
+```
+client.mutate({
+  mutation: AddStar,
+  variables: {
+    id: repoID,
+  },
+})
+.then((res) => {
+  dispatch(fetchRepos(searchTerm))
+})
+.catch((error) => {
+  dispatch({ type: ActionTypes.ERROR_SET, error });
+});
+```
+Similarly, this sends a mutation (called `AddStar`) to GitHub's GraphQL server, then dispatches an action to our Redux store.
+
+Finally, copy the following snippet inside of the function returned from the `removeStar` function:
+```
+client.mutate({
+  mutation: RemoveStar,
+  variables: {
+    id: repoID,
+  },
+})
+.then((response) => {
+  dispatch({ type: ActionTypes.FETCH_REPOS, payload: {} });
+})
+.catch((error) => {
+  dispatch({ type: ActionTypes.ERROR_SET, error });
+});
+```
+Similarly, this sends a mutation (called `RemoveStar`) to GitHub's GraphQL server, then dispatches an action to our Redux store.
+
+#### src/actions/operations.js
+Now is the fun part! Paste your queries and mutations inside of the tagged template literals and your app work!
+
 
 ## Summary / What you Learned
 
