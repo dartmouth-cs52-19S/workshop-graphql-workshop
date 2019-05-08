@@ -396,6 +396,7 @@ client.query({
   variables: {
     queryString: query,
   },
+  fetchPolicy:  'no-cache',
 })
 .then((response) => {
   const repos = response.data.search.edges[0].node.repositories.edges.map(repo => repo.node)
@@ -414,6 +415,7 @@ client.mutate({
   variables: {
     id: repoID,
   },
+  fetchPolicy:  'no-cache',
 })
 .then((res) => {
   dispatch(fetchRepos(searchTerm))
@@ -431,6 +433,7 @@ client.mutate({
   variables: {
     id: repoID,
   },
+  fetchPolicy:  'no-cache',
 })
 .then((response) => {
   dispatch({ type: ActionTypes.FETCH_REPOS, payload: {} });
