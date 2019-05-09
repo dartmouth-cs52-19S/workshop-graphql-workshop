@@ -439,7 +439,7 @@ client.mutate({
   fetchPolicy: 'no-cache',
 })
   .then((response) => {
-    dispatch({ type: ActionTypes.FETCH_REPOS, payload: {} });
+    dispatch(fetchRepos(searchTerm));
   })
   .catch((error) => {
     dispatch({ type: ActionTypes.ERROR_SET, error });
