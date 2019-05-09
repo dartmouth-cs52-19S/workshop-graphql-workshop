@@ -396,15 +396,15 @@ client.query({
   variables: {
     queryString: query,
   },
-  fetchPolicy:  'no-cache',
+  fetchPolicy: 'no-cache',
 })
-.then((response) => {
-  const repos = response.data.search.edges[0].node.repositories.edges.map(repo => repo.node)
-  dispatch({ type: ActionTypes.FETCH_REPOS, payload: repos });
-})
-.catch((error) => {
-  dispatch({ type: ActionTypes.ERROR_SET, error });
-});
+  .then((response) => {
+    const repos = response.data.search.edges[0].node.repositories.edges.map(repo => repo.node)
+    dispatch({ type: ActionTypes.FETCH_REPOS, payload: repos });
+  })
+  .catch((error) => {
+    dispatch({ type: ActionTypes.ERROR_SET, error });
+  });
 ```
 What this does is sends a query named `GetRepos` to GitHub's GraphQL server, then dispatches an action to our Redux store.
 
@@ -415,14 +415,14 @@ client.mutate({
   variables: {
     id: repoID,
   },
-  fetchPolicy:  'no-cache',
+  fetchPolicy: 'no-cache',
 })
-.then((res) => {
-  dispatch(fetchRepos(searchTerm))
-})
-.catch((error) => {
-  dispatch({ type: ActionTypes.ERROR_SET, error });
-});
+  .then((res) => {
+    dispatch(fetchRepos(searchTerm))
+  })
+  .catch((error) => {
+    dispatch({ type: ActionTypes.ERROR_SET, error });
+  });
 ```
 Similarly, this sends a mutation (called `AddStar`) to GitHub's GraphQL server, then dispatches an action to our Redux store.
 
@@ -433,19 +433,19 @@ client.mutate({
   variables: {
     id: repoID,
   },
-  fetchPolicy:  'no-cache',
+  fetchPolicy: 'no-cache',
 })
-.then((response) => {
-  dispatch({ type: ActionTypes.FETCH_REPOS, payload: {} });
-})
-.catch((error) => {
-  dispatch({ type: ActionTypes.ERROR_SET, error });
-});
+  .then((response) => {
+    dispatch({ type: ActionTypes.FETCH_REPOS, payload: {} });
+  })
+  .catch((error) => {
+    dispatch({ type: ActionTypes.ERROR_SET, error });
+  });
 ```
 Similarly, this sends a mutation (called `RemoveStar`) to GitHub's GraphQL server, then dispatches an action to our Redux store.
 
 #### src/actions/operations.js
-Now is the fun part! Paste your queries and mutations inside of the tagged template literals and your app work!
+Now is the fun part! Paste your queries and mutations inside of the tagged template literals and your app works!
 
 
 ## Summary / What you Learned
