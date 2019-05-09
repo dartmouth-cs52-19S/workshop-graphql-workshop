@@ -13,6 +13,7 @@ In this tutorial we will:
 - build a pretty complex query, and play with some mutations that the GitHub API exposes to us
 - wire up Apollo in a React application so that we can make GraphQL queries from the front end
 - incorporate the queries we built into a GitHub search tool React app!
+![app demo](./appScreenShot.png)
 
 ## Setup
 
