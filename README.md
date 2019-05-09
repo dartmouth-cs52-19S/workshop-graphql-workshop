@@ -241,6 +241,7 @@ defaultBranchRef {
           node {
             ... on Commit {
               committedDate
+              message
             }
           }
         }
@@ -253,7 +254,7 @@ defaultBranchRef {
 - Each [`repository`](https://developer.github.com/v4/object/repository/) has a field called `defaultBranchRef`, which is is a [Git reference](https://developer.github.com/v4/object/ref/) to the repository's default branch. 
 - Each `defaultBranchRef` has a `target` field, which is the actual [Git object](https://developer.github.com/v4/interface/gitobject/) the reference points to.
 - We can then use the *inline fragment* (`... on Commit`) to specify that we are interested in those Git objects which are `Commits`.
-- Next, we request the `totalCount` of commits, and for the `first` 10 items in the commit history, request their `committedDate` by following the same nesting of `edges` and `nodes` we used before.
+- Next, we request the `totalCount` of commits, and for the `first` 10 items in the commit history, request their `committedDate` and `message` by following the same nesting of `edges` and `nodes` we used before.
 
 ##### Final step for our query!
 Now that the query works for your username, let's get it ready for our app.
@@ -303,6 +304,7 @@ query listRepos($queryString:String!){
                           node {
                             ... on Commit {
                               committedDate
+                              message
                             }
                           }
                         }
